@@ -475,11 +475,10 @@ fi
 
 
 ##############################generate uri's###########################################################
-sub_uri=https://${domain}/${sub_path}/
-json_uri=https://${domain}/${json_path}/
+#sub_uri=https://${domain}/${sub_path}/
+#json_uri=https://${domain}/${json_path}/
 ##############################generate keys###########################################################
-shor=($(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8))
-
+#shor=($(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8))
 ########################################Update X-UI Port/Path for first INSTALL#########################
 UPDATE_XUIDB(){
 if [[ -f $XUIDB ]]; then
