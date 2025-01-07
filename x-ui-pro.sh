@@ -707,7 +707,7 @@ else
 		)
 
 	printf 'n\n' | bash <(wget -qO- "${PANEL[$PNLNUM]}")
-	UPDATE_XUIDB
+#	UPDATE_XUIDB
 	if ! systemctl is-enabled --quiet x-ui; then
 		systemctl daemon-reload && systemctl enable x-ui.service
 	fi
