@@ -498,7 +498,7 @@ if [[ -f $XUIDB ]]; then
 		INSERT INTO "settings" ("key", "value") VALUES ("subURI",  '${sub_uri}');
 		INSERT INTO "settings" ("key", "value") VALUES ("subJsonPath",  '${json_path}');
 		INSERT INTO "settings" ("key", "value") VALUES ("subJsonURI",  '${json_uri}');
-		INSERT INTO "settings" ("key", "value") VALUES ("subEnable",  'true');
+		INSERT INTO "settings" ("key", "value") VALUES ("subEnable",  'false');
 		INSERT INTO "settings" ("key", "value") VALUES ("webListen",  '');
 		INSERT INTO "settings" ("key", "value") VALUES ("webDomain",  '');
 		INSERT INTO "settings" ("key", "value") VALUES ("webCertFile",  '');
