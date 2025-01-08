@@ -495,14 +495,14 @@ if [[ -f $XUIDB ]]; then
              UPDATE settings SET value = '/${panel_path}/' WHERE key = 'webBasePath';
              INSERT INTO "settings" ("key", "value") VALUES ("subPort",  '${sub_port}');
 	     INSERT INTO "settings" ("key", "value") VALUES ("subPath",  '${sub_path}');
-	     INSERT INTO "settings" ("key", "value") VALUES ("subURI",  '${sub_uri}');
+      	INSERT INTO "settings" ("key", "value") VALUES ("subURI",  '${sub_uri}');
              INSERT INTO "settings" ("key", "value") VALUES ("subJsonPath",  '${json_path}');
-	     INSERT INTO "settings" ("key", "value") VALUES ("subJsonURI",  '${json_uri}');
+			 INSERT INTO "settings" ("key", "value") VALUES ("subJsonURI",  '${json_uri}');
              INSERT INTO "settings" ("key", "value") VALUES ("subEnable",  'true');
              INSERT INTO "settings" ("key", "value") VALUES ("webListen",  '');
-	     INSERT INTO "settings" ("key", "value") VALUES ("webDomain",  '');
+			 INSERT INTO "settings" ("key", "value") VALUES ("webDomain",  '');
              INSERT INTO "settings" ("key", "value") VALUES ("webCertFile",  '');
-	     INSERT INTO "settings" ("key", "value") VALUES ("webKeyFile",  '');
+			 INSERT INTO "settings" ("key", "value") VALUES ("webKeyFile",  '');
       	     INSERT INTO "settings" ("key", "value") VALUES ("sessionMaxAge",  '60');
              INSERT INTO "settings" ("key", "value") VALUES ("pageSize",  '50');
              INSERT INTO "settings" ("key", "value") VALUES ("expireDiff",  '0');
@@ -512,184 +512,25 @@ if [[ -f $XUIDB ]]; then
              INSERT INTO "settings" ("key", "value") VALUES ("tgBotToken",  '');
              INSERT INTO "settings" ("key", "value") VALUES ("tgBotProxy",  '');
              INSERT INTO "settings" ("key", "value") VALUES ("tgBotAPIServer",  '');
-	     INSERT INTO "settings" ("key", "value") VALUES ("tgBotChatId",  '');
+			 INSERT INTO "settings" ("key", "value") VALUES ("tgBotChatId",  '');
              INSERT INTO "settings" ("key", "value") VALUES ("tgRunTime",  '@daily');
-	     INSERT INTO "settings" ("key", "value") VALUES ("tgBotBackup",  'false');
+			 INSERT INTO "settings" ("key", "value") VALUES ("tgBotBackup",  'false');
              INSERT INTO "settings" ("key", "value") VALUES ("tgBotLoginNotify",  'true');
-	     INSERT INTO "settings" ("key", "value") VALUES ("tgCpu",  '80');
+			 INSERT INTO "settings" ("key", "value") VALUES ("tgCpu",  '80');
              INSERT INTO "settings" ("key", "value") VALUES ("tgLang",  'en-US');
-	     INSERT INTO "settings" ("key", "value") VALUES ("timeLocation",  'Europe/Moscow');
+			 INSERT INTO "settings" ("key", "value") VALUES ("timeLocation",  'Europe/Moscow');
              INSERT INTO "settings" ("key", "value") VALUES ("secretEnable",  'false');
-	     INSERT INTO "settings" ("key", "value") VALUES ("subDomain",  '');
+			 INSERT INTO "settings" ("key", "value") VALUES ("subDomain",  '');
              INSERT INTO "settings" ("key", "value") VALUES ("subCertFile",  '');
-	     INSERT INTO "settings" ("key", "value") VALUES ("subKeyFile",  '');
+			 INSERT INTO "settings" ("key", "value") VALUES ("subKeyFile",  '');
              INSERT INTO "settings" ("key", "value") VALUES ("subUpdates",  '12');
-	     INSERT INTO "settings" ("key", "value") VALUES ("subEncrypt",  'true');
+			 INSERT INTO "settings" ("key", "value") VALUES ("subEncrypt",  'true');
              INSERT INTO "settings" ("key", "value") VALUES ("subShowInfo",  'true');
-	     INSERT INTO "settings" ("key", "value") VALUES ("subJsonFragment",  '');
+			 INSERT INTO "settings" ("key", "value") VALUES ("subJsonFragment",  '');
              INSERT INTO "settings" ("key", "value") VALUES ("subJsonNoises",  '');
-	     INSERT INTO "settings" ("key", "value") VALUES ("subJsonMux",  '');
+			 INSERT INTO "settings" ("key", "value") VALUES ("subJsonMux",  '');
              INSERT INTO "settings" ("key", "value") VALUES ("subJsonRules",  '');
-	     INSERT INTO "settings" ("key", "value") VALUES ("datepicker",  'gregorian');
-             INSERT INTO "client_traffics" ("inbound_id","enable","email","up","down","expiry_time","total","reset") VALUES ('1','1','first','0','0','0','0','0');
-	     INSERT INTO "client_traffics" ("inbound_id","enable","email","up","down","expiry_time","total","reset") VALUES ('2','1','first_1','0','0','0','0','0');
-             INSERT INTO "inbounds" ("user_id","up","down","total","remark","enable","expiry_time","listen","port","protocol","settings","stream_settings","tag","sniffing","allocate") VALUES ( 
-             '1',
-	     '0',
-             '0',
-	     '0',
-             'reality',
-	     '1',
-             '0',
-	     '',
-             '8443',
-	     'vless',
-             '{
-	     "clients": [
-    {
-      "id": "${client_id}",
-      "flow": "xtls-rprx-vision",
-      "email": "first",
-      "limitIp": 0,
-      "totalGB": 0,
-      "expiryTime": 0,
-      "enable": true,
-      "tgId": "",
-      "subId": "first",
-      "reset": 0
-    }
-  ],
-  "decryption": "none",
-  "fallbacks": []
-}',
-	     '{
-  "network": "tcp",
-  "security": "reality",
-  "externalProxy": [
-    {
-      "forceTls": "same",
-      "dest": "${domain}",
-      "port": 443,
-      "remark": ""
-    }
-  ],
-  "realitySettings": {
-    "show": false,
-    "xver": 0,
-    "dest": "${reality_domain}:9443",
-    "serverNames": [
-      "$reality_domain"
-    ],
-    "privateKey": "${private_key}",
-    "minClient": "",
-    "maxClient": "",
-    "maxTimediff": 0,
-    "shortIds": [
-      "${shor[0]}",
-      "${shor[1]}",
-      "${shor[2]}",
-      "${shor[3]}",
-      "${shor[4]}",
-      "${shor[5]}",
-      "${shor[6]}",
-      "${shor[7]}"
-    ],
-    "settings": {
-      "publicKey": "${public_key}",
-      "fingerprint": "random",
-      "serverName": "",
-      "spiderX": "/"
-    }
-  },
-  "tcpSettings": {
-    "acceptProxyProtocol": true,
-    "header": {
-      "type": "none"
-    }
-  }
-}',
-             'inbound-8443',
-	     '{
-  "enabled": false,
-  "destOverride": [
-    "http",
-    "tls",
-    "quic",
-    "fakedns"
-  ],
-  "metadataOnly": false,
-  "routeOnly": false
-}',
-'{
-  "strategy": "always",
-  "refresh": 5,
-  "concurrency": 3
-}'
-	     );
-      INSERT INTO "inbounds" ("user_id","up","down","total","remark","enable","expiry_time","listen","port","protocol","settings","stream_settings","tag","sniffing","allocate") VALUES ( 
-             '1',
-	     '0',
-             '0',
-	     '0',
-             'vless_ws',
-	     '1',
-             '0',
-	     '',
-             '${ws_port}',
-	     'vless',
-             '{
-  "clients": [
-    {
-      "id": "${client_id2}",
-      "flow": "",
-      "email": "first_1",
-      "limitIp": 0,
-      "totalGB": 0,
-      "expiryTime": 0,
-      "enable": true,
-      "tgId": "",
-      "subId": "first",
-      "reset": 0
-    }
-  ],
-  "decryption": "none",
-  "fallbacks": []
-}','{
-  "network": "ws",
-  "security": "none",
-  "externalProxy": [
-    {
-      "forceTls": "tls",
-      "dest": "${domain}",
-      "port": 443,
-      "remark": ""
-    }
-  ],
-  "wsSettings": {
-    "acceptProxyProtocol": false,
-    "path": "/${ws_port}/${ws_path}",
-    "host": "${domain}",
-    "headers": {}
-  }
-}',
-             'inbound-${ws_port}',
-	     '{
-  "enabled": false,
-  "destOverride": [
-    "http",
-    "tls",
-    "quic",
-    "fakedns"
-  ],
-  "metadataOnly": false,
-  "routeOnly": false
-}',
-'{
-  "strategy": "always",
-  "refresh": 5,
-  "concurrency": 3
-}'
-	     );
+			 INSERT INTO "settings" ("key", "value") VALUES ("datepicker",  'gregorian');
 EOF
 x-ui start
 else
