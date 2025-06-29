@@ -207,9 +207,9 @@ mkdir -p /etc/nginx/stream-enabled
 cat > "/etc/nginx/stream-enabled/stream.conf" << EOF
 map \$ssl_preread_server_name \$sni_name {
     hostnames;
-    ${reality_domain}      xray;
-    ${domain}           www;
-    default              xray;
+    ${reality_domain}						xray;
+    ${domain}							www;
+    default							xray;
 }
 
 upstream xray {
