@@ -1,14 +1,19 @@
 #!/bin/bash
-#################### x-ui-pro v2.4.3 @ github.com/GFW4Fun ##############################################
+#################### x-ui-pro v2.4.3 @ github.com/GFW4Fun ###################################################
+
 [[ $EUID -ne 0 ]] && echo "not root!" && sudo su -
-##############################INFO######################################################################
+
+##############################   INFO   #####################################################################
+
 msg_ok() { echo -e "\e[1;42m $1 \e[0m";}
 msg_err() { echo -e "\e[1;41m $1 \e[0m";}
 msg_inf() { echo -e "\e[1;34m$1\e[0m";}
 echo;msg_inf '           ___    _   _   _  '	;
 msg_inf		 ' \/ __ | |  | __ |_) |_) / \ '	;
 msg_inf		 ' /\    |_| _|_   |   | \ \_/ '	; echo
-##################################Variables#############################################################
+
+##################################   Variables   ############################################################
+
 XUIDB="/etc/x-ui/x-ui.db";domain="";UNINSTALL="x";INSTALL="n";PNLNUM=1;CFALLOW="n"
 Pak=$(type apt &>/dev/null && echo "apt" || echo "yum")
 systemctl stop x-ui
@@ -20,7 +25,7 @@ rm -rf /etc/nginx/sites-available/*
 rm -rf /etc/nginx/stream-enabled/*
 
 
-##################################generate ports and paths#############################################################
+##################################   Generate Ports and Paths   #############################################
 get_port() {
 	echo $(( ((RANDOM<<15)|RANDOM) % 49152 + 10000 ))
 }
@@ -42,23 +47,14 @@ make_port() {
 }
 sub_port=$(make_port)
 panel_port=$(make_port)
-sub_path=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 6-12 -n 1)")
-json_path=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 6-12 -n 1)")
-panel_path=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 6-12 -n 1)")
+sub_path=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 12-16 -n 1)")
+json_path=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 12-16 -n 1)")
+panel_path=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 12-16 -n 1)")
 ws_port=$(make_port)
-ws_path=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 6-12 -n 1)")
+ws_path=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 12-16 -n 1)")
 
-##################################Random Port and Path #################################################
-#RNDSTR=$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$(shuf -i 6-12 -n 1)")
-#while true; do 
-#    PORT=$(( ((RANDOM<<15)|RANDOM) % 49152 + 10000 ))
-#    status="$(nc -z 127.0.0.1 $PORT < /dev/null &>/dev/null; echo $?)"
-#    if [ "${status}" != "0" ]; then
-#        break
-#    fi
-#done
+################################   Get arguments   ###########################################################
 
-################################Get arguments###########################################################
 while [ "$#" -gt 0 ]; do
   case "$1" in
     -install) INSTALL="$2"; shift 2;;
@@ -71,8 +67,8 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+##############################   Uninstall   #################################################################
 
-##############################Uninstall#################################################################
 UNINSTALL_XUI(){
 	printf 'y\n' | x-ui uninstall
 	rm -rf "/etc/x-ui/" "/usr/local/x-ui/" "/usr/bin/x-ui/"
@@ -87,12 +83,14 @@ if [[ ${UNINSTALL} == *"y"* ]]; then
 	UNINSTALL_XUI	
 	clear && msg_ok "Completely Uninstalled!" && exit 1
 fi
-##############################Domain Validations########################################################
+
+##############################   Domain Validations   ########################################################
+
 while true; do	
 	if [[ -n "$domain" ]]; then
 		break
 	fi
-	echo -en "Enter available subdomain (sub.domain.tld): " && read domain 
+	echo -en "Enter available subdomain for PANEL (sub.domain.tld): " && read domain 
 done
 
 domain=$(echo "$domain" 2>&1 | tr -d '[:space:]' )
@@ -118,7 +116,8 @@ if [[ "${RealitySubDomain}.${RealityMainDomain}" != "${reality_domain}" ]] ; the
 	RealityMainDomain=${reality_domain}
 fi
 
-###############################Install Packages#########################################################
+###############################   Install Packages   #########################################################
+
 ufw disable
 if [[ ${INSTALL} == *"y"* ]]; then
 
@@ -135,14 +134,18 @@ if [[ ${INSTALL} == *"y"* ]]; then
 fi
 systemctl stop nginx 
 fuser -k 80/tcp 80/udp 443/tcp 443/udp 2>/dev/null
-##################################GET SERVER IPv4-6#####################################################
+
+##################################   GET SERVER IPv4-6   #####################################################
+
 IP4_REGEX="^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"
 IP6_REGEX="([a-f0-9:]+:+)+[a-f0-9]+"
 IP4=$(ip route get 8.8.8.8 2>&1 | grep -Po -- 'src \K\S*')
 IP6=$(ip route get 2620:fe::fe 2>&1 | grep -Po -- 'src \K\S*')
 [[ $IP4 =~ $IP4_REGEX ]] || IP4=$(curl -s ipv4.icanhazip.com);
 [[ $IP6 =~ $IP6_REGEX ]] || IP6=$(curl -s ipv6.icanhazip.com);
-##############################Install SSL###############################################################
+
+##############################   Install SSL   ###############################################################
+
 certbot certonly --standalone --non-interactive --agree-tos --register-unsafely-without-email -d "$domain"
 if [[ ! -d "/etc/letsencrypt/live/${domain}/" ]]; then
  	systemctl start nginx >/dev/null 2>&1
@@ -154,7 +157,9 @@ if [[ ! -d "/etc/letsencrypt/live/${reality_domain}/" ]]; then
  	systemctl start nginx >/dev/null 2>&1
 	msg_err "$reality_domain SSL could not be generated! Check Domain/IP Or Enter new domain!" && exit 1
 fi
-################################# Access to configs only with cloudflare#################################
+
+#################################   Access to configs only with cloudflare   #################################
+
 rm -f "/etc/nginx/cloudflareips.sh"
 cat << 'EOF' >> /etc/nginx/cloudflareips.sh
 #!/bin/bash
@@ -179,7 +184,9 @@ if [[ ${CFALLOW} == *"y"* ]]; then
 	else	
 	CF_IP="#";
 fi
-###################################Get Installed XUI Port/Path##########################################
+
+###################################   Get Installed XUI Port/Path   ##########################################
+
 if [[ -f $XUIDB ]]; then
 	XUIPORT=$(sqlite3 -list $XUIDB 'SELECT "value" FROM settings WHERE "key"="webPort" LIMIT 1;' 2>&1)
 	XUIPATH=$(sqlite3 -list $XUIDB 'SELECT "value" FROM settings WHERE "key"="webBasePath" LIMIT 1;' 2>&1)
@@ -193,7 +200,9 @@ if [[ $XUIPORT -gt 0 && $XUIPORT != "54321" && $XUIPORT != "2053" ]] && [[ ${#XU
 EOF
 fi
 fi
-#################################Nginx Config###########################################################
+
+#################################   Nginx Config   ###########################################################
+
 mkdir -p /etc/nginx/stream-enabled
 cat > "/etc/nginx/stream-enabled/stream.conf" << EOF
 map \$ssl_preread_server_name \$sni_name {
@@ -458,7 +467,9 @@ server {
 	location / { try_files \$uri \$uri/ =404; }
 }
 EOF
-##################################Check Nginx status####################################################
+
+##################################   Check Nginx status   ####################################################
+
 if [[ -f "/etc/nginx/sites-available/${domain}" ]]; then
 	unlink "/etc/nginx/sites-enabled/default" >/dev/null 2>&1
 	rm -f "/etc/nginx/sites-enabled/default" "/etc/nginx/sites-available/default"
@@ -475,14 +486,17 @@ else
 	systemctl start nginx 
 fi
 
+##############################   Generate URI's   ###########################################################
 
-##############################generate uri's###########################################################
 sub_uri=https://${domain}/${sub_path}/
 json_uri=https://${domain}/${json_path}/
-##############################generate keys###########################################################
+
+##############################   Generate Keys   ###########################################################
+
 shor=($(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8) $(openssl rand -hex 8))
 
-########################################Update X-UI Port/Path for first INSTALL#########################
+########################################   Update X-UI Port/Path for first INSTALL   #########################
+
 UPDATE_XUIDB(){
 if [[ -f $XUIDB ]]; then
         x-ui stop
@@ -540,7 +554,8 @@ else
 fi
 }
 
-###################################Install X-UI#########################################################
+###################################   Install X-UI   #########################################################
+
 if systemctl is-active --quiet x-ui; then
 	x-ui restart
 else
@@ -557,7 +572,8 @@ else
 	x-ui restart
 fi
 
-######################enable bbr and tune system########################################################
+######################   Enable BBR and Tune System   ########################################################
+
 apt-get install -yqq --no-install-recommends ca-certificates
 echo "net.core.default_qdisc=fq" | tee -a /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" | tee -a /etc/sysctl.conf
@@ -572,29 +588,26 @@ echo "net.ipv4.tcp_wmem = 4096 65536 16777216" | tee -a /etc/sysctl.conf
 
 sysctl -p
 
-
-
-
-
-
-
-######################install_fake_site#################################################################
+######################   Install Fake Site   #################################################################
 
 sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/mozaroc/x-ui-pro/refs/heads/master/randomfakehtml.sh)"
 
+######################   Cronjob for SSL/Reload Service/Cloudflareips   ######################################
 
-######################cronjob for ssl/reload service/cloudflareips######################################
 crontab -l | grep -v "certbot\|x-ui\|cloudflareips" | crontab -
 (crontab -l 2>/dev/null; echo '@daily x-ui restart > /dev/null 2>&1 && nginx -s reload;') | crontab -
 (crontab -l 2>/dev/null; echo '@weekly bash /etc/nginx/cloudflareips.sh > /dev/null 2>&1;') | crontab -
 (crontab -l 2>/dev/null; echo '@monthly certbot renew --nginx --non-interactive --post-hook "nginx -s reload" > /dev/null 2>&1;') | crontab -
-##################################ufw###################################################################
+
+##################################   UFW   ###################################################################
+
 ufw disable
 ufw allow 22/tcp
 ufw allow 80/tcp
 ufw allow 443/tcp
 ufw --force enable  
-##################################Show Details##########################################################
+
+##################################   Show Details   ##########################################################
 
 if systemctl is-active --quiet x-ui; then clear
 	printf '0\n' | x-ui | grep --color=never -i ':'
@@ -621,4 +634,5 @@ else
 	nginx -t && printf '0\n' | x-ui | grep --color=never -i ':'
 	msg_err "sqlite and x-ui to be checked, try on a new clean linux! "
 fi
+
 #################################################N-joy##################################################
